@@ -44,3 +44,8 @@ variable "do_token" {
 ```
 
 And execute commands with the -input=False option: `terraform apply -input=False`
+
+
+## Connecting to the droplet
+
+Once `terraform apply` finishes you can connect to the droplet via SSH with: `ssh -i PATH_TO_KEY deploy@DOMAIN_NAME`

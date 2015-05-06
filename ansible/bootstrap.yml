@@ -1,0 +1,23 @@
+---
+
+- hosts: localhost
+  gather_facts: no
+  connection: local
+
+  tasks:
+    - name: wait for SSH to come up
+      local_action: wait_for port=22 host="{{ target }}" delay=10 timeout=600
+
+
+- hosts: all
+  remote_user: root
+
+  vars_files:
+    - vars/secrets.yml
+
+  tasks:
+    - name: create deploy user
+      user: name=deploy groups=sudo append=yes password={{ deploy_password }} shell=/bin/bash
+
+    - name: set authorized key
+      authorized_key: user=deploy key="{{ lookup('file', deploy_public_key_path) }}"
